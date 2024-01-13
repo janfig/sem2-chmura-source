@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: janfig/sem2-chmura-config
-          token: ${{ secrets.ACTIONS_TOKEN }}
+          token: ${{ secrets.GH_REPO_PAT }}
       - run: |
           sed -i 's/janfigurapollub\/sem2-chmura-zad2:.*/janfigurapollub\/sem2-chmura-zad2:${{ needs.appVersion.outputs.version_number }}/g' webapp-dep.yaml
           git config user.name github-actions
