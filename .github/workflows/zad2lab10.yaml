@@ -50,21 +50,21 @@ jobs:
         context: .
         push: true
         tags: janfigurapollub/sem2-chmura-zad2:${{ needs.appVersion.outputs.version_number}}
-        
-          # kubernetesCI:
-          # needs: [appVersion, dockerCI]
-          #runs-on: ubuntu-latest
-          #
-          #steps:
-          #- name: Check out the repo
-          #uses: actions/checkout@v4
-          #with:
-          # repository: Ybalath/lab10_config
-          #token: ${{ secrets.ACTIONS_TOKEN }}
-          #- run: |
-          # sed -i 's/ybalath\/lab10-app:.*/ybalath\/lab10-app:${{ needs.appVersion.outputs.version_number }}/g' lab10-deployment.yaml
-          #git config user.name github-actions
-          #git config user.email github-actions@github.com
-          #git add -u
-          #git commit -m "updated app version ${{ needs.appVersion.outputs.version_number }}"
-          #git push
+       
+  kubernetesCI:
+    needs: [appVersion, dockerCI]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          repository: janfig/sem2-chmura-config
+          token: ${{ secrets.ACTIONS_TOKEN }}
+      - run: |
+          sed -i 's/janfigurapollub\/sem2-chmura-zad2:.*/janfigurapollub\/sem2-chmura-zad2:${{ needs.appVersion.outputs.version_number }}/g' webapp-dep.yaml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -u
+          git commit -m "version update ${{ needs.appVersion.outputs.version_number }}"
+          git push
